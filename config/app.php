@@ -182,7 +182,8 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // 'Example' => App\Facades\Example::class,
+        'request_data_url' => env('REMOTE_API_URL', 'https://challenges.coode.sh/food/data/json/index.txt'),
+        'request_base_data_url' => env('REMOTE_BASE_API_URL', 'https://challenges.coode.sh/food/data/json/data-fields.txt'),
     ])->toArray(),
 
 ];
