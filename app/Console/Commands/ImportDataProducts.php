@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Services\RequestProductsService;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class ImportDataProducts extends Command
@@ -35,10 +36,11 @@ class ImportDataProducts extends Command
     public function handle()
     {
         try {
-            $products = explode("\n", $this->requestProductsService->requestData());
-            $this->requestProductsService->addProducts($products);
-            $this->requestProductsService->addFile();
-            $this->requestProductsService->createLog('Importing products into the database');
+            $files = explode("\n", $this->requestProductsService->requestData());
+
+            $this->requestProductsService->insertFiles($files);
+            $this->requestProductsService->processDataOperations();
+            $this->requestProductsService->createLog("Importing products into the database");
             return Command::SUCCESS;
         } catch (\Exception $e) {
             $this->requestProductsService->createLog($e->getMessage());

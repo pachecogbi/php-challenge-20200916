@@ -18,6 +18,7 @@ class RequestProductsService
     private $fileRepository;
     private $logRepository;
     private $httpClient;
+    private $storagePath;
 
     public function __construct(ProductRepository $productRepository, FileRepository $fileRepository, LogRepository $logRepository, Client $httpClient)
     {
@@ -25,11 +26,12 @@ class RequestProductsService
         $this->fileRepository = $fileRepository;
         $this->logRepository = $logRepository;
         $this->httpClient = $httpClient;
+        $this->storagePath = storage_path('app/product_files/');
     }
 
     public function requestData()
     {
-        $response = Http::get(config('app.request_data_url'));
+        $response = Http::get('https://challenges.coode.sh/food/data/json/index.txt');
 
         if (!$response->successful()) {
             throw new Exception('Failed to retrieve data from remote server');
@@ -40,32 +42,35 @@ class RequestProductsService
 
     public function createLog($message)
     {
-        return DB::transaction(function () use ($message) {
-            return $this->logRepository->createLog([
-                'message' => $message,
-                'log_date' => Carbon::now()->subHours(3)->format('Y/m/d H:i:s')
-            ]);
-        });
+        try {
+            return DB::transaction(function () use ($message) {
+                $this->logRepository->createLog([
+                    'message' => $message,
+                    'log_date' => Carbon::now()->subHours(3)->format('Y/m/d H:i:s')
+                ]);
+            });
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
     }
 
-    public function addProducts($products)
+    public function insertFiles($files)
     {
-        $existingFiles = $this->fileRepository->getAllFiles()->pluck('name')->toArray();
-        $dataProducts = array_diff($products, $existingFiles);
+        $existingFiles = $this->fileRepository->getAllFiles()->pluck('file_name')->toArray();
 
-        if (empty($dataProducts)) {
+        $dataFiles = array_diff($files, $existingFiles);
+
+        if (empty($dataFiles)) {
             return [];
         }
 
-        array_pop($dataProducts);
-
-        return $this->fileRepository->createFiles($dataProducts);
+        return $this->fileRepository->createFiles($dataFiles);
     }
 
-    public function getFileFromServer($path, $productName)
+    public function getFileFromServer($productName)
     {
-        $response = $this->httpClient->request('GET', config('remote.request_base_data_url') . "/$productName", [
-            'sink' => $path . $productName
+        $response = $this->httpClient->request('GET', "https://challenges.coode.sh/food/data/json" . "/$productName", [
+            'sink' => $this->storagePath . $productName
         ]);
 
         if ($response->getStatusCode() === 200) {
@@ -73,80 +78,75 @@ class RequestProductsService
         }
     }
 
-    private function writeFile($path, $product)
+    private function writeFile($product)
     {
-        $gzippedFilePath = $path . $product->name;
-        $outputFilePath = $path . 'arquivoExtraido.json';
+        $gz = gzopen($this->storagePath . $product->file_name, 'r');
+        $fp = fopen($this->storagePath . "arquivoExtraido.json", 'w');
+        while ($string = gzread($gz, 4096)) {
+            fwrite($fp, $string, strlen($string));
+        }
+        fclose($fp);
+        gzclose($gz);
 
+        $fh = fopen($this->storagePath . 'arquivoExtraido.json', 'rb');
         $content = [];
-
-        if (($gz = gzopen($gzippedFilePath, 'r')) !== false) {
-            if (($outputFile = fopen($outputFilePath, 'w')) !== false) {
-                while (($string = gzread($gz, 4096)) !== false) {
-                    fwrite($outputFile, $string, strlen($string));
-                }
-
-                fclose($outputFile);
-            }
-
-            gzclose($gz);
-
-            if (($inputFile = fopen($outputFilePath, 'rb')) !== false) {
-                for ($i = 0; $i < 100; $i++) {
-                    $line = fgets($inputFile);
-                    if ($line === false) {
-                        break;
-                    }
-                    $content[] = json_decode($line);
-                }
-
-                fclose($inputFile);
+        for ($i = 0; $i < 100; $i++) {
+            $line = fgets($fh);
+            if ($line !== false) {
+                $content[] = json_decode($line);
             }
         }
+        fclose($fh);
 
         return $content;
     }
 
-    private function saveData($content)
+    private function saveDataProducts($content)
     {
-        DB::transaction(function () use ($content) {
-            foreach ($content as $newProduct) {
-                $this->productRepository->addProduct($this->mountData($newProduct));
-            }
-        });
+        try {
+            DB::transaction(function () use ($content) {
+                foreach ($content as $newProduct) {
+                    $this->productRepository->addProduct($this->mountData($newProduct));
+                }
+            });
+        } catch (\Throwable $th) {
+            dd("error: " . $th->getMessage());
+        }
     }
 
     private function mountData($product)
     {
         $fieldsToCopy = [
-            "code", "url", "creator", "created_t", "last_modified_t", "product_name",
+            "url", "creator", "created_t", "last_modified_t", "product_name",
             "quantity", "brands", "categories", "labels", "cities", "purchase_places",
             "stores", "ingredients_text", "traces", "serving_size", "serving_quantity",
             "nutriscore_score", "nutriscore_grade", "main_category", "image_url"
         ];
 
-        $data = ["status" => "published"];
+        $data = [
+            "code" => str_replace('"', "", $product->code),
+            "status" => "published",
+            "imported_t" => Carbon::now()->subHours(3)->format('Y/m/d H:i:s')
+        ];
 
         foreach ($fieldsToCopy as $field) {
-            $data[$field] = $product->$field;
+            $data[$field] = $product->$field === "" ? null : $product->$field;
         }
-
-        $data["imported_t"] = Carbon::now()->subHours(3)->format('Y/m/d H:i:s');
 
         return $data;
     }
 
-    private function updateProduct($product)
+    private function updateFile($product)
     {
         DB::transaction(function () use ($product) {
-            $this->productRepository->turnRunToFalse($product);
+            return $product->update(['will_run' => 0]);
         });
     }
 
-    private function deleteFile($product)
+    private function deleteFile($fileName)
     {
-        $productFilePath = public_path('storage/' . $product->name);
-        $extraFilePath = public_path('storage/arquivoExtraido.json');
+        $productFilePath = storage_path('app/product_files/' . $fileName);
+        $extraFilePath = storage_path('app/product_files/arquivoExtraido.json');
 
         try {
             if (file_exists($productFilePath)) {
@@ -161,23 +161,19 @@ class RequestProductsService
         }
     }
 
-    public function addFile()
+    public function processDataOperations()
     {
-        $storagePath = config('local.storage_path');
-
-        $fileRepository = $this->fileRepository->getAllFiles();
-
-        $fileRepository->each(function ($file) use ($storagePath) {
-            if ($file->run === 0) {
+        $this->fileRepository->getAllFiles()->each(function ($file) {
+            if ($file->will_run === 0) {
                 return;
             }
 
             try {
-                $this->getFileFromServer($storagePath, $file);
-                $content = $this->writeFile($storagePath, $file);
-                $this->saveData($content);
-                $this->updateProduct($file);
-                $this->deleteFile($file);
+                $this->getFileFromServer($file->file_name);
+                $content = $this->writeFile($file);
+                $this->saveDataProducts($content);
+                $this->updateFile($file);
+                $this->deleteFile($file->file_name);
             } catch (Exception $e) {
                 Log::error("An exception occurred while processing the file: " . $e->getMessage());
             }

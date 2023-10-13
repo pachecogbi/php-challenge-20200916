@@ -1,0 +1,9 @@
+{
+	"success": true,
+	"data": {
+		"read_write_status": "Success. The database check was completed successfully.",
+		"last_cron_check_date": "2023-10-12T23:00:21.000000Z",
+		"used_memory": "25.32 MB",
+		"online_time": "288.97 min"
+	}
+}

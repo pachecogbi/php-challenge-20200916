@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\File;
+use Illuminate\Support\Facades\DB;
 
 class FileRepository
 {
@@ -12,12 +13,20 @@ class FileRepository
         return File::all();
     }
 
-    public function createFiles($product)
+    public function createFiles($params)
     {
-        foreach ($product as $productName) {
-            File::create(['name' => $productName]);
-        };
+        try {
+            DB::transaction(function () use ($params) {
+                foreach ($params as $fileName) {
+                    if (!empty($fileName)) {
+                        File::create(['file_name' => $fileName]);
+                    }
+                };
+            });
 
-        return true;
+            return true;
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
     }
 }

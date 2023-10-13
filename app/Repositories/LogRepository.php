@@ -8,6 +8,6 @@ class LogRepository
 {
     public function createLog($params)
     {
-        return Log::create();
+        return Log::create($params);
     }
 }

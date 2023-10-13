@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('files', function (Blueprint $table) {
             $table->id();
             $table->string('file_name');
-            $table->boolean('will_run');
+            $table->boolean('will_run')->default(1);
         });
     }
 

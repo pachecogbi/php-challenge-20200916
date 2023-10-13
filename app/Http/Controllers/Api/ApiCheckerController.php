@@ -13,6 +13,14 @@ class ApiCheckerController extends Controller
         $this->apiCheckerService = $apiCheckerService;
     }
 
+    /**
+     * Visualiza Status da Api
+     *
+     * Descreve os detalhes de bom funcionamento da API.
+     * @group ApiChecker
+     * @responseFile 200 Responses/ApiChecker/GetStatusApi/SuccessResponse.json
+     * @responseFile 422 Responses/ApiChecker/GetStatusApi/UnprocessableResponse.json
+     */
     public function getStatusApi()
     {
         try {

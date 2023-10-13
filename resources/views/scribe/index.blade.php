@@ -66,22 +66,32 @@
                     <a href="#authenticating-requests">Authenticating requests</a>
                 </li>
                             </ul>
-                    <ul id="tocify-header-endpoints" class="tocify-header">
-                <li class="tocify-item level-1" data-unique="endpoints">
-                    <a href="#endpoints">Endpoints</a>
+                    <ul id="tocify-header-apichecker" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="apichecker">
+                    <a href="#apichecker">ApiChecker</a>
                 </li>
-                                    <ul id="tocify-subheader-endpoints" class="tocify-subheader">
-                                                    <li class="tocify-item level-2" data-unique="endpoints-GETapi-products">
-                                <a href="#endpoints-GETapi-products">GET api/products</a>
+                                    <ul id="tocify-subheader-apichecker" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="apichecker-GETapi">
+                                <a href="#apichecker-GETapi">Visualiza Status da Api</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-GETapi-products--code-">
-                                <a href="#endpoints-GETapi-products--code-">GET api/products/{code}</a>
+                                                                        </ul>
+                            </ul>
+                    <ul id="tocify-header-products" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="products">
+                    <a href="#products">Products</a>
+                </li>
+                                    <ul id="tocify-subheader-products" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="products-GETapi-products">
+                                <a href="#products-GETapi-products">Listagem de Produtos</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-PUTapi-products--code-">
-                                <a href="#endpoints-PUTapi-products--code-">PUT api/products/{code}</a>
+                                                                                <li class="tocify-item level-2" data-unique="products-GETapi-products--code-">
+                                <a href="#products-GETapi-products--code-">Visualizar produto</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-DELETEapi-products--code-">
-                                <a href="#endpoints-DELETEapi-products--code-">DELETE api/products/{code}</a>
+                                                                                <li class="tocify-item level-2" data-unique="products-PUTapi-products--code-">
+                                <a href="#products-PUTapi-products--code-">Atualizar produto</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="products-DELETEapi-products--code-">
+                                <a href="#products-DELETEapi-products--code-">Altera status produto</a>
                             </li>
                                                                         </ul>
                             </ul>
@@ -94,7 +104,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: October 12, 2023</li>
+        <li>Last updated: October 13, 2023</li>
     </ul>
 </div>
 
@@ -112,16 +122,153 @@ You can switch the language used with the tabs at the top right (or from the nav
         <h1 id="authenticating-requests">Authenticating requests</h1>
 <p>This API is not authenticated.</p>
 
-        <h1 id="endpoints">Endpoints</h1>
+        <h1 id="apichecker">ApiChecker</h1>
 
     
 
-                                <h2 id="endpoints-GETapi-products">GET api/products</h2>
+                                <h2 id="apichecker-GETapi">Visualiza Status da Api</h2>
 
 <p>
 </p>
 
+<p>Descreve os detalhes de bom funcionamento da API.</p>
 
+<span id="example-requests-GETapi">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost/api" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;data&quot;: {
+        &quot;read_write_status&quot;: &quot;Success. The database check was completed successfully.&quot;,
+        &quot;last_cron_check_date&quot;: &quot;2023-10-12T23:00:21.000000Z&quot;,
+        &quot;used_memory&quot;: &quot;25.32 MB&quot;,
+        &quot;online_time&quot;: &quot;288.97 min&quot;
+    }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: false,
+    &quot;error_message&quot;: &quot;Error message&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi" data-method="GET"
+      data-path="api"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi"
+                    onclick="tryItOut('GETapi');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi"
+                    onclick="cancelTryOut('GETapi');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
+                <h1 id="products">Products</h1>
+
+    
+
+                                <h2 id="products-GETapi-products">Listagem de Produtos</h2>
+
+<p>
+</p>
+
+<p>Lista todos os produtos já inseridos no banco de dados.</p>
 
 <span id="example-requests-GETapi-products">
 <blockquote>Example request:</blockquote>
@@ -155,51 +302,68 @@ fetch(url, {
             <blockquote>
             <p>Example response (200):</p>
         </blockquote>
-                <details class="annotation">
-            <summary style="cursor: pointer;">
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
-content-type: application/json
-x-ratelimit-limit: 60
-x-ratelimit-remaining: 59
-access-control-allow-origin: *
- </code></pre></details>         <pre>
+                <pre>
 
 <code class="language-json" style="max-height: 300px;">{
     &quot;current_page&quot;: 1,
     &quot;data&quot;: [
         {
-            &quot;id&quot;: 6,
-            &quot;code&quot;: 20221126,
-            &quot;status&quot;: &quot;trash&quot;,
-            &quot;imported_t&quot;: &quot;2020-02-07T16:00:00.000000Z&quot;,
-            &quot;url&quot;: &quot;https://world.openfoodfacts.org/product/20221126&quot;,
-            &quot;creator&quot;: &quot;securita&quot;,
-            &quot;created_t&quot;: 1415302075,
-            &quot;last_modified_t&quot;: 1572265837,
-            &quot;product_name&quot;: &quot;Madalenas quadradas&quot;,
-            &quot;quantity&quot;: &quot;380 g (6 x 2 u.)&quot;,
-            &quot;brands&quot;: &quot;La Cestera&quot;,
-            &quot;categories&quot;: &quot;Lanches comida, Lanches doces, Biscoitos e Bolos, Bolos, Madalenas&quot;,
-            &quot;labels&quot;: &quot;Contem gluten, Cont&eacute;m derivados de ovos, Cont&eacute;m ovos&quot;,
+            &quot;id&quot;: 1,
+            &quot;code&quot;: 17,
+            &quot;status&quot;: &quot;published&quot;,
+            &quot;imported_t&quot;: &quot;2023-10-12T22:59:42.000000Z&quot;,
+            &quot;url&quot;: &quot;http://world-en.openfoodfacts.org/product/0000000000017/vitoria-crackers&quot;,
+            &quot;creator&quot;: &quot;kiliweb&quot;,
+            &quot;created_t&quot;: 1529059080,
+            &quot;last_modified_t&quot;: 1561463718,
+            &quot;product_name&quot;: &quot;Vit&oacute;ria crackers&quot;,
+            &quot;quantity&quot;: null,
+            &quot;brands&quot;: null,
+            &quot;categories&quot;: null,
+            &quot;labels&quot;: null,
             &quot;cities&quot;: null,
-            &quot;purchase_places&quot;: &quot;Braga,Portugal&quot;,
-            &quot;stores&quot;: &quot;Lidl&quot;,
-            &quot;ingredients_text&quot;: &quot;farinha de trigo, a&ccedil;&uacute;car, &oacute;leo vegetal de girassol, clara de ovo, ovo, humidificante (sorbitol), levedantes qu&iacute;micos (difosfato diss&oacute;dico, hidrogenocarbonato de s&oacute;dio), xarope de glucose-frutose, sal, aroma&quot;,
-            &quot;traces&quot;: &quot;Frsutos de casca rija,Leite,Soja,Sementes de s&eacute;samo,Produtos &agrave; base de sementes de s&eacute;samo&quot;,
-            &quot;serving_size&quot;: &quot;madalena 31.7 g&quot;,
-            &quot;serving_quantity&quot;: 31.7,
-            &quot;nutriscore_score&quot;: 17,
-            &quot;nutriscore_grade&quot;: &quot;d&quot;,
-            &quot;main_category&quot;: &quot;en:madeleines&quot;,
-            &quot;image_url&quot;: &quot;https://static.openfoodfacts.org/images/products/20221126/front_pt.5.400.jpg&quot;
+            &quot;purchase_places&quot;: null,
+            &quot;stores&quot;: null,
+            &quot;ingredients_text&quot;: null,
+            &quot;traces&quot;: null,
+            &quot;serving_size&quot;: null,
+            &quot;serving_quantity&quot;: null,
+            &quot;nutriscore_score&quot;: null,
+            &quot;nutriscore_grade&quot;: null,
+            &quot;main_category&quot;: null,
+            &quot;image_url&quot;: &quot;https://static.openfoodfacts.org/images/products/000/000/000/0017/front_fr.4.400.jpg&quot;
+        },
+        {
+            &quot;id&quot;: 2,
+            &quot;code&quot;: 31,
+            &quot;status&quot;: &quot;published&quot;,
+            &quot;imported_t&quot;: &quot;2023-10-12T22:59:42.000000Z&quot;,
+            &quot;url&quot;: &quot;http://world-en.openfoodfacts.org/product/0000000000031/cacao&quot;,
+            &quot;creator&quot;: &quot;isagoofy&quot;,
+            &quot;created_t&quot;: 1539464774,
+            &quot;last_modified_t&quot;: 1539464817,
+            &quot;product_name&quot;: &quot;Cacao&quot;,
+            &quot;quantity&quot;: &quot;130 g&quot;,
+            &quot;brands&quot;: null,
+            &quot;categories&quot;: null,
+            &quot;labels&quot;: null,
+            &quot;cities&quot;: null,
+            &quot;purchase_places&quot;: null,
+            &quot;stores&quot;: null,
+            &quot;ingredients_text&quot;: null,
+            &quot;traces&quot;: null,
+            &quot;serving_size&quot;: null,
+            &quot;serving_quantity&quot;: null,
+            &quot;nutriscore_score&quot;: null,
+            &quot;nutriscore_grade&quot;: null,
+            &quot;main_category&quot;: null,
+            &quot;image_url&quot;: &quot;https://static.openfoodfacts.org/images/products/000/000/000/0031/front_fr.3.400.jpg&quot;
         }
     ],
     &quot;first_page_url&quot;: &quot;http://localhost/api/products?page=1&quot;,
     &quot;from&quot;: 1,
-    &quot;last_page&quot;: 1,
-    &quot;last_page_url&quot;: &quot;http://localhost/api/products?page=1&quot;,
+    &quot;last_page&quot;: 450,
+    &quot;last_page_url&quot;: &quot;http://localhost/api/products?page=450&quot;,
     &quot;links&quot;: [
         {
             &quot;url&quot;: null,
@@ -212,17 +376,77 @@ access-control-allow-origin: *
             &quot;active&quot;: true
         },
         {
+            &quot;url&quot;: &quot;http://localhost/api/products?page=2&quot;,
+            &quot;label&quot;: &quot;2&quot;,
+            &quot;active&quot;: false
+        },
+        {
+            &quot;url&quot;: &quot;http://localhost/api/products?page=3&quot;,
+            &quot;label&quot;: &quot;3&quot;,
+            &quot;active&quot;: false
+        },
+        {
+            &quot;url&quot;: &quot;http://localhost/api/products?page=4&quot;,
+            &quot;label&quot;: &quot;4&quot;,
+            &quot;active&quot;: false
+        },
+        {
+            &quot;url&quot;: &quot;http://localhost/api/products?page=5&quot;,
+            &quot;label&quot;: &quot;5&quot;,
+            &quot;active&quot;: false
+        },
+        {
+            &quot;url&quot;: &quot;http://localhost/api/products?page=6&quot;,
+            &quot;label&quot;: &quot;6&quot;,
+            &quot;active&quot;: false
+        },
+        {
+            &quot;url&quot;: &quot;http://localhost/api/products?page=7&quot;,
+            &quot;label&quot;: &quot;7&quot;,
+            &quot;active&quot;: false
+        },
+        {
+            &quot;url&quot;: &quot;http://localhost/api/products?page=8&quot;,
+            &quot;label&quot;: &quot;8&quot;,
+            &quot;active&quot;: false
+        },
+        {
+            &quot;url&quot;: &quot;http://localhost/api/products?page=9&quot;,
+            &quot;label&quot;: &quot;9&quot;,
+            &quot;active&quot;: false
+        },
+        {
+            &quot;url&quot;: &quot;http://localhost/api/products?page=10&quot;,
+            &quot;label&quot;: &quot;10&quot;,
+            &quot;active&quot;: false
+        },
+        {
             &quot;url&quot;: null,
+            &quot;label&quot;: &quot;...&quot;,
+            &quot;active&quot;: false
+        },
+        {
+            &quot;url&quot;: &quot;http://localhost/api/products?page=449&quot;,
+            &quot;label&quot;: &quot;449&quot;,
+            &quot;active&quot;: false
+        },
+        {
+            &quot;url&quot;: &quot;http://localhost/api/products?page=450&quot;,
+            &quot;label&quot;: &quot;450&quot;,
+            &quot;active&quot;: false
+        },
+        {
+            &quot;url&quot;: &quot;http://localhost/api/products?page=2&quot;,
             &quot;label&quot;: &quot;Next &amp;raquo;&quot;,
             &quot;active&quot;: false
         }
     ],
-    &quot;next_page_url&quot;: null,
+    &quot;next_page_url&quot;: &quot;http://localhost/api/products?page=2&quot;,
     &quot;path&quot;: &quot;http://localhost/api/products&quot;,
-    &quot;per_page&quot;: 20,
+    &quot;per_page&quot;: 2,
     &quot;prev_page_url&quot;: null,
-    &quot;to&quot;: 1,
-    &quot;total&quot;: 1
+    &quot;to&quot;: 2,
+    &quot;total&quot;: 900
 }</code>
  </pre>
     </span>
@@ -297,12 +521,12 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
-                    <h2 id="endpoints-GETapi-products--code-">GET api/products/{code}</h2>
+                    <h2 id="products-GETapi-products--code-">Visualizar produto</h2>
 
 <p>
 </p>
 
-
+<p>Visualiza o produto com base no code.</p>
 
 <span id="example-requests-GETapi-products--code-">
 <blockquote>Example request:</blockquote>
@@ -310,14 +534,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost/api/products/6" \
+    --get "http://localhost/api/products/16" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/products/6"
+    "http://localhost/api/products/16"
 );
 
 const headers = {
@@ -336,19 +560,51 @@ fetch(url, {
             <blockquote>
             <p>Example response (200):</p>
         </blockquote>
-                <details class="annotation">
-            <summary style="cursor: pointer;">
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
-content-type: application/json
-x-ratelimit-limit: 60
-x-ratelimit-remaining: 58
-access-control-allow-origin: *
- </code></pre></details>         <pre>
+                <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;messages&quot;: &quot;No query results for model [App\\Models\\Product].&quot;
+    &quot;id&quot;: 1,
+    &quot;code&quot;: 17,
+    &quot;status&quot;: &quot;published&quot;,
+    &quot;imported_t&quot;: &quot;2023-10-12T22:59:42.000000Z&quot;,
+    &quot;url&quot;: &quot;http://world-en.openfoodfacts.org/product/0000000000017/vitoria-crackers&quot;,
+    &quot;creator&quot;: &quot;kiliweb&quot;,
+    &quot;created_t&quot;: 1529059080,
+    &quot;last_modified_t&quot;: 1561463718,
+    &quot;product_name&quot;: &quot;Vit&oacute;ria crackers&quot;,
+    &quot;quantity&quot;: null,
+    &quot;brands&quot;: null,
+    &quot;categories&quot;: null,
+    &quot;labels&quot;: null,
+    &quot;cities&quot;: null,
+    &quot;purchase_places&quot;: null,
+    &quot;stores&quot;: null,
+    &quot;ingredients_text&quot;: null,
+    &quot;traces&quot;: null,
+    &quot;serving_size&quot;: null,
+    &quot;serving_quantity&quot;: null,
+    &quot;nutriscore_score&quot;: null,
+    &quot;nutriscore_grade&quot;: null,
+    &quot;main_category&quot;: null,
+    &quot;image_url&quot;: &quot;https://static.openfoodfacts.org/images/products/000/000/000/0017/front_fr.4.400.jpg&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;No query results for model [App\\Models\\Product].&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;error&quot;: &quot;Error message&quot;
 }</code>
  </pre>
     </span>
@@ -428,19 +684,19 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="code"                data-endpoint="GETapi-products--code-"
-               value="6"
+               value="16"
                data-component="url">
     <br>
-<p>Example: <code>6</code></p>
+<p>code. Example: <code>16</code></p>
             </div>
                     </form>
 
-                    <h2 id="endpoints-PUTapi-products--code-">PUT api/products/{code}</h2>
+                    <h2 id="products-PUTapi-products--code-">Atualizar produto</h2>
 
 <p>
 </p>
 
-
+<p>Atualiza o produto com base no code.</p>
 
 <span id="example-requests-PUTapi-products--code-">
 <blockquote>Example request:</blockquote>
@@ -448,14 +704,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost/api/products/6" \
+    "http://localhost/api/products/9" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/products/6"
+    "http://localhost/api/products/9"
 );
 
 const headers = {
@@ -471,7 +727,34 @@ fetch(url, {
 </span>
 
 <span id="example-responses-PUTapi-products--code-">
-</span>
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;The product with code 17 has been updated successfully.&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;No query results for model [App\\Models\\Product].&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;error&quot;: &quot;Error message&quot;
+}</code>
+ </pre>
+    </span>
 <span id="execution-results-PUTapi-products--code-" hidden>
     <blockquote>Received response<span
                 id="execution-response-status-PUTapi-products--code-"></span>:
@@ -548,19 +831,19 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="code"                data-endpoint="PUTapi-products--code-"
-               value="6"
+               value="9"
                data-component="url">
     <br>
-<p>Example: <code>6</code></p>
+<p>code. Example: <code>9</code></p>
             </div>
                     </form>
 
-                    <h2 id="endpoints-DELETEapi-products--code-">DELETE api/products/{code}</h2>
+                    <h2 id="products-DELETEapi-products--code-">Altera status produto</h2>
 
 <p>
 </p>
 
-
+<p>Altera o status do produto com base no code para trash.</p>
 
 <span id="example-requests-DELETEapi-products--code-">
 <blockquote>Example request:</blockquote>
@@ -568,14 +851,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost/api/products/6" \
+    "http://localhost/api/products/4" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/products/6"
+    "http://localhost/api/products/4"
 );
 
 const headers = {
@@ -591,7 +874,34 @@ fetch(url, {
 </span>
 
 <span id="example-responses-DELETEapi-products--code-">
-</span>
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;The code 17 product had its status changed to trash&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;No query results for model [App\\Models\\Product].&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;error&quot;: &quot;Error message&quot;
+}</code>
+ </pre>
+    </span>
 <span id="execution-results-DELETEapi-products--code-" hidden>
     <blockquote>Received response<span
                 id="execution-response-status-DELETEapi-products--code-"></span>:
@@ -668,10 +978,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="code"                data-endpoint="DELETEapi-products--code-"
-               value="6"
+               value="4"
                data-component="url">
     <br>
-<p>Example: <code>6</code></p>
+<p>code. Example: <code>4</code></p>
             </div>
                     </form>
 

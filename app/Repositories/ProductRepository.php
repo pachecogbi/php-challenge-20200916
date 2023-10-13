@@ -18,7 +18,10 @@ class ProductRepository
 
     public function addProduct($params)
     {
-        return Product::create($params);
+        return Product::firstOrCreate(
+            ['code' => $params['code']],
+            $params
+        );
     }
 
     public function turnRunToFalse($product)

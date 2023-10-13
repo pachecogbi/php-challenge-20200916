@@ -1,66 +1,64 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Projeto Open Food Facts - CHALLENGE - 20200916
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+### Esta API foi desenvolvida como parte deste desafio para criar uma REST API destinada a utilizar os dados do projeto Open Food Facts, um banco de dados de informações nutricionais de diversos produtos alimentícios. Seu principal propósito é oferecer suporte eficaz à equipe de nutricionistas da empresa Fitness Foods LC.
 
-## About Laravel
+# Tecnologias. 
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+-   [PHP](https://www.php.net/docs.php)
+-   [Laravel](https://laravel.com/)
+-   [MySQL](https://dev.mysql.com/doc/)
+-   [Docker](https://docs.docker.com/)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+* Inicialmente, é necessário fazer a instalação do Docker, para que possamos instalar as dependencias necessárias para o nosso projeto. Intale o Docker com base no seu sistema operacional:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+  ```
+    https://docs.docker.com/desktop/install/linux-install/
+  ```
 
-## Learning Laravel
+* Entre na passta do projeto e use o seguinte comando para instalar as dependencias:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```sh
+$ ./vendor/bin/sail up
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+* Após a instalação, faça uma cópia do arquivo .env.example para .env e cofigure essa área de acordo com suas credenciais de banco de dados.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```sh
+DB_CONNECTION=mysql
+DB_HOST=(ip database)
+DB_PORT=(porta database)
+DB_DATABASE=(seu database)
+DB_USERNAME=(seu usuario)
+DB_PASSWORD=(sua senha)
+```
 
-## Laravel Sponsors
+* Crie o schema no banco de dados com o mesmo nome do DB_DATABASE do do arquivo .env.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+* Agora faça a migração das tabelas do banco de dados:
+```sh
+$ ./vendor/bin/sail artisan migrate
+```
 
-### Premium Partners
+# Instruções para configurar o CRON em sua máquina
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+* Em seu terminal linux insira o seguinte comando:
+  ```
+    sudo nano /etc/crontab
+  ```
+  
+* Na ultima linha insira:
 
-## Contributing
+    ```
+    30  3    * * *   root    cd (caminho onde está o seu projeto) && php artisan seedTables:add >> /dev/null 2>&1
+    ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+# Endpoints
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Endpoint                             | Response                                                                                                                                                             | Body                               |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
+| GET /                                | Retorna detalhes da API, se conexão leitura e escritura com a base de dados está OK, horário da última vez que o CRON foi executado, tempo online e uso de memória. |                                                  |
+| PUT /products/{codigo do produto}    | Retorna o produto com as alterações feita                                                                                                                           | {json com dados de alteração} |
+| DELETE /products/{codigo do produto} | Retorna o produto no qual o status foi alterado para "trash"                                                                                                        |                                                  |
+| GET /products/{codigo do produto}    | Retorna o produto compativel com o codigo enviado                                                                                                                   |                                                  |
+| GET /products                        | Retorna todos os produtos cadastrados no banco de dados                                                                                                             |
+|                                      |

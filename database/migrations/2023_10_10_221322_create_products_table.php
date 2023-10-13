@@ -10,17 +10,17 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->integer('code');
+            $table->bigInteger('code')->unique();
             $table->enum('status', ['draft', 'trash', 'published']);
             $table->dateTime('imported_t')->nullable();
-            $table->string('url')->nullable();
+            $table->text('url')->nullable();
             $table->string('creator')->nullable();
             $table->integer('created_t')->nullable();
             $table->integer('last_modified_t')->nullable();
             $table->string('product_name')->nullable();
             $table->string('quantity')->nullable();
             $table->string('brands')->nullable();
-            $table->string('categories')->nullable();
+            $table->text('categories')->nullable();
             $table->string('labels')->nullable();
             $table->string('cities')->nullable();
             $table->string('purchase_places')->nullable();
@@ -28,11 +28,11 @@ class CreateProductsTable extends Migration
             $table->text('ingredients_text')->nullable();
             $table->string('traces')->nullable();
             $table->string('serving_size')->nullable();
-            $table->double('serving_quantity', 8, 1)->nullable();
+            $table->double('serving_quantity', 8, 1)->nullable()->default(0.0);
             $table->integer('nutriscore_score')->nullable();
             $table->string('nutriscore_grade')->nullable();
             $table->string('main_category')->nullable();
-            $table->string('image_url')->nullable();
+            $table->text('image_url')->nullable();
         });
     }
 
