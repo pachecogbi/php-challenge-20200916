@@ -1,4 +1,4 @@
-# Projeto Open Food Facts - CHALLENGE - 20200916
+# Open Food Facts - CHALLENGE - 20200916
 
 ### Esta API foi desenvolvida como parte deste desafio para criar uma REST API destinada a utilizar os dados do projeto Open Food Facts, um banco de dados de informações nutricionais de diversos produtos alimentícios. Seu principal propósito é oferecer suporte eficaz à equipe de nutricionistas da empresa Fitness Foods LC.
 
@@ -84,6 +84,23 @@ $ ./vendor/bin/sail artisan migrate
     ```
     30  3    * * *   root    cd (caminho onde está o seu projeto) && php artisan seedTables:add >> /dev/null 2>&1
     ```
+
+# Instruções para executar os testes
+
+* Crie um arquivo chamado "database.sqlite" dentro da pasta database.
+
+* Faça uma copia da .env com o nome de .env.testing e sincronize com o database sqlite.
+  
+```sh
+DB_CONNECTION=sqlite
+DB_DATABASE=database/databse.sqlite
+```
+
+* Rode o comando a seguir para executar os testes:
+
+```sh
+$ php artisan test --env=env.testing
+```
 
 # Endpoints
 
