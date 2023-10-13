@@ -9,6 +9,7 @@
 -   [MySQL](https://dev.mysql.com/doc/)
 -   [Docker](https://docs.docker.com/)
 
+# Como configurar.
 * Inicialmente, é necessário fazer a instalação do Docker, para que possamos instalar as dependencias necessárias para o nosso projeto. Caso não tenha o docker, vamos instalar passo a passo:
 
 * Rode esse comando para instalar alguns pacotes necessários:
@@ -71,7 +72,7 @@ DB_PASSWORD=(sua senha)
 $ ./vendor/bin/sail artisan migrate
 ```
 
-# Instruções para configurar o CRON em sua máquina
+# Instruções para configurar o CRON.
 
 * Em seu terminal linux insira o seguinte comando:
   ```
