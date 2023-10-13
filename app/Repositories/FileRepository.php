@@ -26,7 +26,7 @@ class FileRepository
 
             return true;
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            return response(["error: " => $th->getMessage()]);
         }
     }
 }

@@ -50,7 +50,7 @@ class RequestProductsService
                 ]);
             });
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            return response(["error: " => $th->getMessage()]);
         }
     }
 
@@ -110,7 +110,7 @@ class RequestProductsService
                 }
             });
         } catch (\Throwable $th) {
-            dd("error: " . $th->getMessage());
+            return response(["error: " => $th->getMessage()]);
         }
     }
 

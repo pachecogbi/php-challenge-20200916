@@ -20,6 +20,7 @@ Route::get('/', [ApiCheckerController::class, 'getStatusApi'])->name('apiCheck.g
 
 Route::group(['prefix' => 'products'], function () {
     Route::get('/', [ProductController::class, 'index'])->name('products.getAllProducts');
+    Route::post('/', [ProductController::class, 'store'])->name('products.createNewProduct');
     Route::get('/{code}', [ProductController::class, 'show'])->name('products.findProduct');
     Route::put('/{code}', [ProductController::class, 'update'])->name('products.updateProduct');
     Route::delete('/{code}', [ProductController::class, 'delete'])->name('products.deleteProduct');

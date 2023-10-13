@@ -2,41 +2,49 @@
 
 namespace Tests\Feature;
 
-use App\Http\Controllers\Api\ProductController;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ProductControllerTest extends TestCase
 {
-
-    public function test_CaseIndexReturnValues()
+    /**
+     * Test if a product is created successfully.
+     */
+    public function test_CaseProductIsCreatedSuccessfully()
     {
-        $response = $this->json('GET', '/api/products/');
-        dd($response);
-        $response->assertStatus(200);
+        $response = $this->json('POST', '/api/products/', [
+            'code' => '01',
+            'creator' => 'tester'
+        ]);
+
+        $response->assertStatus(201);
+        $productData = json_decode($response->content());
+
+        return $productData->code;
     }
 
     /**
-     * @depends test_CaseIndexReturnValues
+     * Test if a product is displayed successfully.
+     *
+     * @depends test_CaseProductIsCreatedSuccessfully
      */
-    public function test_CaseProductIsVisualized($params)
+    public function test_CaseProductIsDisplayedSuccessfully($productCode)
     {
-
-        $response = $this->json('GET', '/api/products/' . $params['product_code']);
+        $response = $this->json('GET', '/api/products/' . $productCode);
 
         $response->assertStatus(200);
-        return ['product' => json_decode($response->content())];
+        $product = json_decode($response->content());
+
+        $this->assertEquals($productCode, $product->code);
     }
 
-
     /**
-     * @depends test_CaseProductIsVisualized
+     * Test if a product is updated successfully.
+     *
+     * @depends test_CaseProductIsCreatedSuccessfully
      */
-    public function test_CaseAProductIsUpdatedSuccessfully($params)
+    public function test_CaseProductIsUpdatedSuccessfully($productCode)
     {
-
-        $response = $this->json('PUT', '/api/products/' . $params['product_code'], [
+        $response = $this->json('PUT', '/api/products/' . $productCode, [
             'creator' => 'tester'
         ]);
 

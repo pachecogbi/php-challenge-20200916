@@ -61,6 +61,22 @@ class ProductController extends Controller
         }
     }
 
+    public function store(Request $request)
+    {
+        try {
+            $response = DB::transaction(function () use ($request){
+                return $this->productRepository->addProduct($request->all());
+            });
+
+            return $response;
+        } catch (\Throwable $th) {
+            $errorMessage = $th->getMessage();
+            $statusCode = 422;
+
+            return response(['error' => $errorMessage], $statusCode);
+        }
+    }
+
     /**
      * Atualizar produto
      *
