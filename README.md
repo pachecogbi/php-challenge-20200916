@@ -9,13 +9,45 @@
 -   [MySQL](https://dev.mysql.com/doc/)
 -   [Docker](https://docs.docker.com/)
 
-* Inicialmente, é necessário fazer a instalação do Docker, para que possamos instalar as dependencias necessárias para o nosso projeto. Intale o Docker com base no seu sistema operacional:
+* Inicialmente, é necessário fazer a instalação do Docker, para que possamos instalar as dependencias necessárias para o nosso projeto. Caso não tenha o docker, vamos instalar passo a passo:
 
-  ```
-    https://docs.docker.com/desktop/install/linux-install/
-  ```
+* Rode esse comando para instalar alguns pacotes necessários:
 
-* Entre na passta do projeto e use o seguinte comando para instalar as dependencias:
+```sh
+$ sudo apt-get install  curl apt-transport-https ca-certificates software-properties-common
+```
+
+* Agora configure os repositórios do Docker. Rode este comando para configurar a chave GPG:
+
+```sh
+$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+```
+
+* Adicione o repositório:
+
+```sh
+$ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+```
+
+* Atualize as informações do repositório:
+
+```sh
+$ sudo apt update
+```
+
+* Instale o Docker: 
+
+```sh
+$ sudo apt install docker-ce
+```
+
+*  Adicione o usuário atual ao grupo "docker" com permissões de administração.
+
+```sh
+$ sudo usermod -aG docker $USER
+```
+
+* Entre na pasta do projeto e use o seguinte comando para instalar as dependencias:
 
 ```sh
 $ ./vendor/bin/sail up
