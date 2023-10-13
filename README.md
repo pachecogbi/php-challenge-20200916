@@ -72,6 +72,20 @@ DB_PASSWORD=(sua senha)
 $ ./vendor/bin/sail artisan migrate
 ```
 
+# Para visualizar documentação das rotas.
+
+* Rode o seguinte comando para gerar a documentação:
+
+```sh
+$ ./vendor/bin/sail artisan scribe:generate
+```
+
+* Agora acesse a rota web docs do laravel para visualizar:
+
+  ```
+    exemplo: localhost/docs
+  ```
+
 # Instruções para configurar o CRON.
 
 * Em seu terminal linux insira o seguinte comando:
