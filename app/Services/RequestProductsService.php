@@ -29,7 +29,7 @@ class RequestProductsService
         $this->storagePath = storage_path('product_files/');
     }
 
-    public function requestData()
+    public function requestFileName()
     {
         $response = Http::get('https://challenges.coode.sh/food/data/json/index.txt');
 

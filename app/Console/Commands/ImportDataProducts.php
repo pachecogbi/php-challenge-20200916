@@ -36,7 +36,7 @@ class ImportDataProducts extends Command
     public function handle()
     {
         try {
-            $files = explode("\n", $this->requestProductsService->requestData());
+            $files = explode("\n", $this->requestProductsService->requestFileName());
 
             $this->requestProductsService->insertFiles($files);
             $this->requestProductsService->processDataOperations();
