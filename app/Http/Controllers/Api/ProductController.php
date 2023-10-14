@@ -22,6 +22,7 @@ class ProductController extends Controller
      * Lista todos os produtos já inseridos no banco de dados.
      * @group Products
      * @responseFile 200 Responses/Products/Index/SuccessResponse.json
+     * @responseFile 422 Responses/Products/Index/UnprocessableResponse.json
      */
     public function index()
     {
