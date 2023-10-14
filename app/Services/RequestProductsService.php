@@ -104,11 +104,11 @@ class RequestProductsService
     private function saveDataProducts($content)
     {
         try {
-            DB::transaction(function () use ($content) {
-                foreach ($content as $newProduct) {
+            foreach ($content as $newProduct) {
+                DB::transaction(function () use ($newProduct) {
                     $this->productRepository->addProduct($this->mountData($newProduct));
-                }
-            });
+                });
+            }
         } catch (\Throwable $th) {
             return response(["error: " => $th->getMessage()]);
         }
