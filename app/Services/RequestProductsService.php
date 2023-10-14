@@ -175,7 +175,6 @@ class RequestProductsService
                 $this->updateFile($file);
                 $this->deleteFile($file->file_name);
             } catch (Exception $e) {
-                dd($e->getMessage());
                 Log::error("An exception occurred while processing the file: " . $e->getMessage());
             }
         });
