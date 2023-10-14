@@ -63,6 +63,12 @@ services:
                 - ping
             retries: 3
             timeout: 5s
+    composer:
+        image: composer
+        volumes:
+            - .:/var/www/html
+        working_dir: /var/www/html
+        command: ["install"]
 networks:
     sail:
         driver: bridge

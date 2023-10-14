@@ -42,10 +42,21 @@ $ sudo apt update
 $ sudo apt install docker-ce
 ```
 
-*  Adicione o usuário atual ao grupo "docker" com permissões de administração.
+* Adicione o usuário atual ao grupo "docker" com permissões de administração:
 
 ```sh
 $ sudo usermod -aG docker $USER
+```
+* Instale as dependências do Laravel:
+
+```sh
+$ docker-compose run --rm composer install
+```
+
+* Gere uma Key para o projeto:
+
+```sh
+$ ./vendor/bin/sail artisan key:generate
 ```
 
 * Entre na pasta do projeto e use o seguinte comando para instalar as dependencias:
@@ -74,13 +85,7 @@ $ ./vendor/bin/sail artisan migrate
 
 # Para visualizar documentação das rotas.
 
-* Rode o seguinte comando para gerar a documentação:
-
-```sh
-$ ./vendor/bin/sail artisan scribe:generate
-```
-
-* Agora acesse a rota web docs do laravel para visualizar:
+* Acesse a rota web docs do laravel para visualizar:
 
   ```
     exemplo: localhost/docs

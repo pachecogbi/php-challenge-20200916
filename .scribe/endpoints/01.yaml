@@ -202,12 +202,12 @@ endpoints:
         name: code
         description: code.
         required: true
-        example: 16
+        example: 13
         type: integer
         enumValues: []
         custom: []
     cleanUrlParameters:
-      code: 16
+      code: 13
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -288,12 +288,12 @@ endpoints:
         name: code
         description: code.
         required: true
-        example: 9
+        example: 3
         type: integer
         enumValues: []
         custom: []
     cleanUrlParameters:
-      code: 9
+      code: 3
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -351,12 +351,12 @@ endpoints:
         name: code
         description: code.
         required: true
-        example: 4
+        example: 12
         type: integer
         enumValues: []
         custom: []
     cleanUrlParameters:
-      code: 4
+      code: 12
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
