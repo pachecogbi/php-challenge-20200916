@@ -26,7 +26,7 @@ class RequestProductsService
         $this->fileRepository = $fileRepository;
         $this->logRepository = $logRepository;
         $this->httpClient = $httpClient;
-        $this->storagePath = storage_path('app/product_files/');
+        $this->storagePath = storage_path('product_files/');
     }
 
     public function requestData()
@@ -145,8 +145,8 @@ class RequestProductsService
 
     private function deleteFile($fileName)
     {
-        $productFilePath = storage_path('app/product_files/' . $fileName);
-        $extraFilePath = storage_path('app/product_files/arquivoExtraido.json');
+        $productFilePath = $this->storagePath . $fileName;
+        $extraFilePath = $this->storagePath . "arquivoExtraido.json";
 
         try {
             if (file_exists($productFilePath)) {
@@ -175,6 +175,7 @@ class RequestProductsService
                 $this->updateFile($file);
                 $this->deleteFile($file->file_name);
             } catch (Exception $e) {
+                dd($e->getMessage());
                 Log::error("An exception occurred while processing the file: " . $e->getMessage());
             }
         });
