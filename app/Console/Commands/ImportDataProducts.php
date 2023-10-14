@@ -41,6 +41,7 @@ class ImportDataProducts extends Command
             $this->requestProductsService->insertFiles($files);
             $this->requestProductsService->processDataOperations();
             $this->requestProductsService->createLog("Importing products into the database");
+            dump("The process was completed successfully");
             return Command::SUCCESS;
         } catch (\Exception $e) {
             $this->requestProductsService->createLog($e->getMessage());
